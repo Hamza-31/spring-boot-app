@@ -2,12 +2,15 @@ package com.springapp;
 
 import com.springapp.customer.Customer;
 import com.springapp.customer.CustomerRepository;
+import net.datafaker.Faker;
+import net.datafaker.providers.base.Name;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 public class Main {
@@ -17,10 +20,17 @@ public class Main {
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository){
         return args -> {
-        Customer hamza = new Customer("Hamza", "hamza@gmail.com",30);
-        Customer nissrine = new Customer("Nissrine", "nissrine@gmail.com",29);
-        List<Customer> customers = List.of(hamza, nissrine);
-        // customerRepository.saveAll(customers);
+            var faker = new Faker();
+            
+            Random random = new Random();
+            Name name = faker.name();
+            String firstName = name.firstName();
+            String lastname = name.lastName();
+            Customer customer = new Customer(
+                firstName+" "+lastname,
+                firstName.toLowerCase() +"."+lastname.toLowerCase()+"@example.com",
+                random.nextInt(16,99));
+        customerRepository.save(customer);
 
 
         };
