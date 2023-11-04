@@ -2,7 +2,6 @@ package com.springapp.customer;
 
 import com.springapp.exception.ResourceNotFoundException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -55,7 +54,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
     }
 
     @Override
-    public boolean existsPersonWithEmail(String email) {
+    public boolean existsCustomerWithEmail(String email) {
         var sql = """
                 SELECT count(*) FROM customer
                 WHERE email = ?
@@ -65,7 +64,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
     }
 
     @Override
-    public boolean existsPersonWithId(Long id) {
+    public boolean existsCustomerById(Long id) {
         var sql = """
                 SELECT count(*) FROM customer
                 WHERE id = ?
@@ -76,7 +75,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
 
     @Override
     public void deleteCustomerById(Long id) {
-        if(!existsPersonWithId(id)){
+        if(!existsCustomerById(id)){
             throw new ResourceNotFoundException("customer with id [%s] not found".formatted(id));
         }
         var  sql = """

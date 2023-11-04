@@ -3,15 +3,12 @@ package com.springapp.customer;
 import com.springapp.AbstractTestcontainers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
     private CustomerJDBCDataAccessService underTest;
@@ -116,7 +113,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         );
         underTest.insertCustomer(customer);
         // When
-        boolean actual = underTest.existsPersonWithEmail(email);
+        boolean actual = underTest.existsCustomerWithEmail(email);
         // Then
         assertThat(actual).isTrue();
     }
@@ -125,7 +122,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         // Given
         String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
         // When
-        boolean actual = underTest.existsPersonWithEmail(email);
+        boolean actual = underTest.existsCustomerWithEmail(email);
         // Then
         assertThat(actual).isFalse();
     }
@@ -147,7 +144,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
                 .findFirst()
                 .orElseThrow();
         // When
-        boolean actual = underTest.existsPersonWithId(id);
+        boolean actual = underTest.existsCustomerById(id);
         // Then
         assertThat(actual).isTrue();
     }
@@ -156,7 +153,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
 
         long id = -1;
         // When
-        boolean actual = underTest.existsPersonWithId(id);
+        boolean actual = underTest.existsCustomerById(id);
         // Then
         assertThat(actual).isFalse();
     }

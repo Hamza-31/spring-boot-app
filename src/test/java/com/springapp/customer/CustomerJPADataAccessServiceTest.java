@@ -1,14 +1,11 @@
 package com.springapp.customer;
 
-import net.datafaker.Faker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 class CustomerJPADataAccessServiceTest {
@@ -65,7 +62,7 @@ class CustomerJPADataAccessServiceTest {
         // Given
         String email = "chaymae@example.com";
         // When
-        underTest.existsPersonWithEmail(email);
+        underTest.existsCustomerWithEmail(email);
         // Then
         verify(customerRepository).existsCustomerByEmail(email);
     }
@@ -75,7 +72,7 @@ class CustomerJPADataAccessServiceTest {
         // Given
         long id = 1;
         // When
-        underTest.existsPersonWithId(id);
+        underTest.existsCustomerById(id);
         // Then
         verify(customerRepository).existsCustomerById(id);
     }
