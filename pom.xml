@@ -9,12 +9,17 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.springapp</groupId>
-	<artifactId>springboot-example</artifactId>
+	<artifactId>hamza31-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<organization>
+		<name>hamza31</name>
+		<url>https://www.hamza-labzioui.com</url>
+	</organization>
 	<name>springboot-example</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<docker.username>hamza31</docker.username>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -112,7 +117,40 @@
 					</includes>
 				</configuration>
 			</plugin>
+            <plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.2</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:17</image>
+						<platforms>
+							<platform>
+								<architecture>arm64</architecture>
+								<os>linux</os>
+							</platform>
+							<platform>
+								<architecture>amd64</architecture>
+								<os>linux</os>
+							</platform>
+						</platforms>
+					</from>
+					<to>
+						<image>docker.io/${project.organization.name}/${project.artifactId}:${project.version}</image>
+						<tags>
+							<tag>latest</tag>
+						</tags>
+					</to>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
