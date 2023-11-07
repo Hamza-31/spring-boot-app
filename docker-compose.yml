@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: springapp
+    container_name: postgres
     image: postgres
     environment:
       POSTGRES_USER: hamzoo
@@ -11,6 +11,18 @@ services:
     ports:
       - "5532:5432"
     networks:
+      - db
+    restart: unless-stopped
+  hamza31-api:
+    container_name: hamza31-api
+    image: hamza31/hamza31-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
+    ports:
+      - "3000:3000"
+    networks:
+      - db
+    depends_on:
       - db
     restart: unless-stopped
 networks:
