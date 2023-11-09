@@ -20,8 +20,8 @@ public class Main {
     CommandLineRunner runner(CustomerRepository customerRepository){
         return args -> {
             var faker = new Faker();
-            
             Random random = new Random();
+            
             Name name = faker.name();
             String firstName = name.firstName();
             String lastname = name.lastName();
@@ -30,8 +30,6 @@ public class Main {
                 firstName.toLowerCase() +"."+lastname.toLowerCase()+"@example.com",
                 random.nextInt(16,99));
         customerRepository.save(customer);
-
-
         };
     }
 }
