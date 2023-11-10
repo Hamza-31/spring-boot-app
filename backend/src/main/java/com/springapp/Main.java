@@ -21,15 +21,17 @@ public class Main {
         return args -> {
             var faker = new Faker();
             Random random = new Random();
-            
+
             Name name = faker.name();
             String firstName = name.firstName();
             String lastname = name.lastName();
+
             Customer customer = new Customer(
                 firstName+" "+lastname,
                 firstName.toLowerCase() +"."+lastname.toLowerCase()+"@example.com",
                 random.nextInt(16,99));
-        customerRepository.save(customer);
+
+            customerRepository.save(customer);
         };
     }
 }
