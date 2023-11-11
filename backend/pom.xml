@@ -11,15 +11,13 @@
 	<groupId>com.springapp</groupId>
 	<artifactId>hamza31-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<organization>
-		<name>hamza31</name>
-		<url>https://www.hamza-labzioui.com</url>
-	</organization>
 	<name>springboot-example</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 		<docker.username>hamza31</docker.username>
+		<docker.image.name>hamza31-api</docker.image.name>
+		<docker.image.tag />
 	</properties>
 	<dependencies>
 		<dependency>
@@ -136,7 +134,7 @@
 						</platforms>
 					</from>
 					<to>
-						<image>docker.io/${project.organization.name}/${project.artifactId}:${project.version}</image>
+						<image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
 						<tags>
 							<tag>latest</tag>
 						</tags>
