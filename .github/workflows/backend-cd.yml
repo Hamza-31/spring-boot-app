@@ -43,7 +43,7 @@ jobs:
       - name: Send Slack Deployment has started
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":":announcement: Deployment has started"}'
+          --data '{"text":"Deployment has started"}'
           ${{ secrets.SLACK_WEBHOOK_URL}}
       - name: Set build number
         id: build-number
@@ -53,7 +53,7 @@ jobs:
       - name: Send Slack Maven Step Completed
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":"Maven Step Completed :good: -- Docker image tag ${{steps.build-number.outputs.BUILD_NUMBER}} and pushed to Docker Hub"}'
+          --data '{"text":"Maven Step Completed -- Build ocker image tag ${{steps.build-number.outputs.BUILD_NUMBER}} and pushed to Docker Hub"}'
           ${{ secrets.SLACK_WEBHOOK_URL}}
       - name: Update Dockerrun.aws.json api image tag with new number
         run: |
@@ -88,5 +88,5 @@ jobs:
       - name: Send Slack Deployment ahs finished
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":"Deployment has finished :finish_flag: - Job status ${{ job.status }}"}'
+          --data '{"text":"Deployment has finished - Job status ${{ job.status }} - ${{secrets.EB_ENVIRONMENT_URL}}"}'
           ${{ secrets.SLACK_WEBHOOK_URL}}
