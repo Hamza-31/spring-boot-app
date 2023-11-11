@@ -40,11 +40,21 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Send Slack Deployment has started
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":":announcement: Deployment has started"}'
+          ${{ secrets.SLACK_WEBHOOK_URL}}
       - name: Set build number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}}
+      - name: Send Slack Maven Step Completed
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Maven Step Completed :good: -- Docker image tag ${{steps.build-number.outputs.BUILD_NUMBER}} and pushed to Docker Hub"}'
+          ${{ secrets.SLACK_WEBHOOK_URL}}
       - name: Update Dockerrun.aws.json api image tag with new number
         run: |
           echo "Docker.aws.json before updating tag"
@@ -52,6 +62,11 @@ jobs:
           sed -i -E 's_(hamza31/hamza31-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
           echo "Docker.aws.json after updating tag"
           cat Dockerrun.aws.json
+      - name: Send Slack Deployment to Elastic Beanstalk has kicked off
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Elastic Beanstalk has kicked off :launch:"}'
+          ${{ secrets.SLACK_WEBHOOK_URL}}
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -70,3 +85,8 @@ jobs:
           git add .
           git commit -m "Update Dockerrun.aws.json docker image with new tag ${{steps.build-number.outputs.BUILD_NUMBER}}"
           git push
+      - name: Send Slack Deployment ahs finished
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Deployment has finished :finish_flag: - Job status ${{ job.status }}"}'
+          ${{ secrets.SLACK_WEBHOOK_URL}}
