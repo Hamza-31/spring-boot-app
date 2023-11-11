@@ -53,7 +53,7 @@ jobs:
       - name: Send Slack Maven Step Completed
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":"Maven Step Completed -- Build ocker image tag ${{steps.build-number.outputs.BUILD_NUMBER}} and pushed to Docker Hub"}'
+          --data '{"text":"Maven Step Completed -- Build docker image tag ${{steps.build-number.outputs.BUILD_NUMBER}} and pushed to Docker Hub"}'
           ${{ secrets.SLACK_WEBHOOK_URL}}
       - name: Update Dockerrun.aws.json api image tag with new number
         run: |
@@ -65,7 +65,7 @@ jobs:
       - name: Send Slack Deployment to Elastic Beanstalk has kicked off
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":"Elastic Beanstalk has kicked off :launch:"}'
+          --data '{"text":"Elastic Beanstalk Deployment has kicked off :launch:"}'
           ${{ secrets.SLACK_WEBHOOK_URL}}
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
@@ -84,8 +84,8 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "Update Dockerrun.aws.json docker image with new tag ${{steps.build-number.outputs.BUILD_NUMBER}}"
-          git push -f origin main
-      - name: Send Slack Deployment ahs finished
+          git push
+      - name: Send Slack Deployment has finished
         run: >
           curl -X POST -H 'Content-type: application/json'
           --data '{"text":"Deployment has finished - Job status ${{ job.status }} - ${{secrets.EB_ENVIRONMENT_URL}}"}'
