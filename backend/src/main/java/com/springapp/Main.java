@@ -2,6 +2,7 @@ package com.springapp;
 
 import com.springapp.customer.Customer;
 import com.springapp.customer.CustomerRepository;
+import com.springapp.customer.Gender;
 import net.datafaker.Faker;
 import net.datafaker.providers.base.Name;
 import org.springframework.boot.CommandLineRunner;
@@ -21,15 +22,17 @@ public class Main {
         return args -> {
             var faker = new Faker();
             Random random = new Random();
-            
+            int age = random.nextInt(16,99);
+            Gender gender = age%2 ==0 ? Gender.MALE: Gender.FEMALE;
             Name name = faker.name();
             String firstName = name.firstName();
             String lastname = name.lastName();
             Customer customer = new Customer(
                 firstName+" "+lastname,
                 firstName.toLowerCase() +"."+lastname.toLowerCase()+"@example.com",
-                random.nextInt(16,99));
-        customerRepository.save(customer);
+                 age,
+                 gender);
+            customerRepository.save(customer);
         };
     }
 }

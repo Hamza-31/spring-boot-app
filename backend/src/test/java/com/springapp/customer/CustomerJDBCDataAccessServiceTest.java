@@ -27,8 +27,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 FAKER.internet().safeEmailAddress() +"-"+ UUID.randomUUID(),
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         // When
         List<Customer> customers = underTest.selectAllCustomers();
@@ -44,8 +44,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         Long id = underTest.selectAllCustomers()
                 .stream()
@@ -82,8 +82,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         // When
         Long id = underTest.selectAllCustomers()
@@ -109,8 +109,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         // When
         boolean actual = underTest.existsCustomerWithEmail(email);
@@ -134,8 +134,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         Long id = underTest.selectAllCustomers()
                 .stream()
@@ -165,8 +165,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         long id = underTest.selectAllCustomers()
                 .stream()
@@ -188,8 +188,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         Long id = underTest.selectAllCustomers()
                 .stream()
@@ -221,8 +221,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         Long id = underTest.selectAllCustomers()
                 .stream()
@@ -255,8 +255,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         Long id = underTest.selectAllCustomers()
                 .stream()
@@ -289,8 +289,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         Long id = underTest.selectAllCustomers()
                 .stream()
@@ -303,14 +303,21 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer update = new Customer();
         update.setId(id);
         update.setName("foo test");
-        update.setEmail(FAKER.internet().safeEmailAddress()+"-"+UUID.randomUUID());
-        update.setAge(100);
+        String newEmail = UUID.randomUUID().toString();
+        update.setEmail(newEmail);
+        update.setAge(30);
 
         underTest.updateCustomer(update);
 
         // Then
         Optional<Customer> actual = underTest.selectCustomerById(id);
-        assertThat(actual).isPresent().hasValue(update);
+        assertThat(actual).isPresent().hasValueSatisfying(updated->{
+            assertThat(updated.getId()).isEqualTo(id);
+            assertThat(updated.getGender()).isEqualTo(Gender.MALE);
+            assertThat(updated.getName()).isEqualTo("foo test");
+            assertThat(updated.getEmail()).isEqualTo(newEmail);
+            assertThat(updated.getAge()).isEqualTo(30);
+        });
 
     }
     @Test
@@ -320,8 +327,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.insertCustomer(customer);
         Long id = underTest.selectAllCustomers()
                 .stream()
