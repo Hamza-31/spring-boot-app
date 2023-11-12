@@ -204,7 +204,7 @@ public class CustomerIntegrationTest {
                 updateName,
                 null,
                 null,
-                null
+                gender
         );
         webTestClient.put()
                 .uri(customerUri+"/{id}",id)
