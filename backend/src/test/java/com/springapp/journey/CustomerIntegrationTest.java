@@ -6,6 +6,7 @@ import com.springapp.customer.CustomerUpdateRequest;
 import com.springapp.customer.Gender;
 import net.datafaker.Faker;
 import net.datafaker.providers.base.Name;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,12 +38,11 @@ public class CustomerIntegrationTest {
         String email =
                 fakerName.lastName().toLowerCase()+"-"+ UUID.randomUUID()+"@foobar.co";
         int age = random.nextInt(1,99);
-        Gender gender = age%2 ==0 ? Gender.MALE: Gender.FEMALE;
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 name,
                 email,
                 age,
-                gender
+                Gender.MALE
         );
         // send a post request
         String customerUri = "/api/v1/customers";
@@ -71,9 +71,11 @@ public class CustomerIntegrationTest {
                 name,
                 email,
                 age,
-                gender);
+                Gender.MALE);
+
         assertThat(allCustomers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
                 .contains(expectedCustomer);
+
         long id = allCustomers.stream()
                 .filter(c->c.getEmail().equals(email))
                 .map(Customer::getId)
@@ -101,7 +103,7 @@ public class CustomerIntegrationTest {
         String email =
                 fakerName.lastName().toLowerCase()+"-"+ UUID.randomUUID()+"@foobar.co";
         int age = random.nextInt(1,99);
-        Gender gender = age%2 ==0 ? Gender.MALE: Gender.FEMALE;
+        Gender gender = Gender.FEMALE;
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 name,
                 email,
@@ -162,7 +164,7 @@ public class CustomerIntegrationTest {
         String email =
                 fakerName.lastName().toLowerCase()+"-"+ UUID.randomUUID()+"@foobar.co";
         int age = random.nextInt(1,99);
-        Gender gender = age%2 ==0 ? Gender.MALE: Gender.FEMALE;
+        Gender gender = Gender.MALE;
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 name,
                 email,
@@ -203,8 +205,7 @@ public class CustomerIntegrationTest {
         CustomerUpdateRequest updateCustomer = new CustomerUpdateRequest(
                 updateName,
                 null,
-                null,
-                gender
+                null
         );
         webTestClient.put()
                 .uri(customerUri+"/{id}",id)

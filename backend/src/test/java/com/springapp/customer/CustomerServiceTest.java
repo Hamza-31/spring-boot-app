@@ -141,8 +141,7 @@ class CustomerServiceTest {
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
                 "Alexandro",
                 newEmail,
-                25,
-                Gender.MALE
+                25
         );
         // when(customerDao.existsCustomerWithEmail(newEmail)).thenReturn(false);
         underTest.updateCustomer(
@@ -173,7 +172,6 @@ class CustomerServiceTest {
         // When
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
                 "Alexandro",
-                null,
                 null,
                 null
         );
@@ -207,7 +205,6 @@ class CustomerServiceTest {
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
                 null,
                 email,
-                null,
                 null
         );
         underTest.updateCustomer(
@@ -239,8 +236,7 @@ class CustomerServiceTest {
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
                 null,
                 null,
-                30,
-                null
+                30
         );
         underTest.updateCustomer(
                 id,
@@ -271,7 +267,6 @@ class CustomerServiceTest {
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
                 null,
                 newEmail,
-                null,
                 null
         );
         when(customerDao.existsCustomerWithEmail(newEmail)).thenReturn(true);
@@ -297,8 +292,7 @@ class CustomerServiceTest {
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
                 customer.getName(),
                 customer.getEmail(),
-                customer.getAge(),
-                customer.getGender()
+                customer.getAge()
         );
         // When
         assertThatThrownBy(()->underTest.updateCustomer(id,updateRequest))
