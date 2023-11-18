@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "hamza31-api",
-      "image": "hamza31/hamza31-api:latest",
+      "image": "hamza31/hamza31-api:18.11.2023.17.09.58",
       "essential": true,
       "memory": 512,
       "portMappings": [
