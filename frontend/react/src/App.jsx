@@ -4,6 +4,7 @@ import SidebarWithHeader from "./_shared/SidebarWithHeader.jsx";
 import { Spinner, Text, Wrap, WrapItem } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
 import CardWithImage from "./components/CardWithImage.jsx"
+import DrawerForm from "./components/DrawerForm.jsx";
 function App() {
 	const [customers, setCustomers] = useState([])
 	const [loading, setLoading] = useState(false)
@@ -41,6 +42,7 @@ function App() {
 	return (
 		<>
 			<SidebarWithHeader >
+				<DrawerForm />
 				<Wrap justify='center' spacing="30px">
 					{customers.map((customer, index) => (
 						<WrapItem key={index}>
