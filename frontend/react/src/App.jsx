@@ -8,7 +8,7 @@ import DrawerForm from "./components/DrawerForm.jsx";
 function App() {
 	const [customers, setCustomers] = useState([])
 	const [loading, setLoading] = useState(false)
-	useEffect(() => {
+	const fetchCustomers = () => {
 		setLoading(true)
 		getCustomers().then(res => {
 			setCustomers(res.data)
@@ -17,7 +17,9 @@ function App() {
 		}).finally(() => {
 			setLoading(false)
 		})
-
+	}
+	useEffect(() => {
+		fetchCustomers();
 	}, [])
 	if (loading) {
 		return (
@@ -35,14 +37,15 @@ function App() {
 	if (customers.length <= 0) {
 		return (
 			<SidebarWithHeader >
-				<Text>No Customers available</Text>
+				<DrawerForm fetchCustomers={fetchCustomers} />
+				<Text mt={5}>No Customers available</Text>
 			</SidebarWithHeader>
 		)
 	}
 	return (
 		<>
 			<SidebarWithHeader >
-				<DrawerForm />
+				<DrawerForm fetchCustomers={fetchCustomers} />
 				<Wrap justify='center' spacing="30px">
 					{customers.map((customer, index) => (
 						<WrapItem key={index}>
