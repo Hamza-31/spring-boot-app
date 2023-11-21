@@ -5,15 +5,21 @@ import { Spinner, Text, Wrap, WrapItem } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
 import CardWithImage from "./components/CardWithImage.jsx"
 import DrawerForm from "./components/DrawerForm.jsx";
+import { errorNotification } from "./_services/notification.js";
 function App() {
 	const [customers, setCustomers] = useState([])
 	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState("");
 	const fetchCustomers = () => {
 		setLoading(true)
 		getCustomers().then(res => {
 			setCustomers(res.data)
 		}).catch(err => {
-			console.log(err)
+			setError(err.response.data.message)
+			errorNotification(
+				err.code,
+				err.response.data.message
+			)
 		}).finally(() => {
 			setLoading(false)
 		})
@@ -42,6 +48,14 @@ function App() {
 			</SidebarWithHeader>
 		)
 	}
+	if (error) {
+		return (
+			<SidebarWithHeader >
+				<DrawerForm fetchCustomers={fetchCustomers} />
+				<Text mt={5}>Ooops there is an error !</Text>
+			</SidebarWithHeader>
+		)
+	}
 	return (
 		<>
 			<SidebarWithHeader >
@@ -49,7 +63,7 @@ function App() {
 				<Wrap justify='center' spacing="30px">
 					{customers.map((customer, index) => (
 						<WrapItem key={index}>
-							<CardWithImage imageNumber={index} {...customer} />
+							<CardWithImage fetchCustomers={fetchCustomers} imageNumber={index} {...customer} />
 						</WrapItem>
 					))}
 				</Wrap>

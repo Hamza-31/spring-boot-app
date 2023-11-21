@@ -12,8 +12,9 @@ import {
 	useColorModeValue,
 	Tag
 } from '@chakra-ui/react'
+import DeleteCustomerDialog from './DeleteCustomerDialog';
 
-export default function CardWithImage({ id, name, email, age, gender, imageNumber }) {
+export default function CardWithImage({ id, name, email, age, gender, imageNumber, fetchCustomers }) {
 	const randomUserGender = gender === 'MALE' ? 'men' : 'women';
 	return (
 		<Center py={6}>
@@ -37,7 +38,7 @@ export default function CardWithImage({ id, name, email, age, gender, imageNumbe
 					<Avatar
 						size={'xl'}
 						src={
-						`https://randomuser.me/api/portraits/med/${randomUserGender}/${imageNumber}.jpg`
+							`https://randomuser.me/api/portraits/med/${randomUserGender}/${imageNumber}.jpg`
 						}
 						css={{
 							border: '2px solid white',
@@ -55,6 +56,9 @@ export default function CardWithImage({ id, name, email, age, gender, imageNumbe
 						<Text color={'gray.500'}>Age: {age} | {gender}</Text>
 					</Stack>
 				</Box>
+				<Stack>
+					<DeleteCustomerDialog fetchCustomers={fetchCustomers} id={id} name={name}></DeleteCustomerDialog>
+				</Stack>
 			</Box>
 		</Center>
 	)
