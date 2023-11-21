@@ -2,6 +2,7 @@ import { Alert, AlertIcon, Box, Button, FormLabel, Input, Select, Stack } from '
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { saveCustomer } from '../_services/client';
+import { errorNotification, successNotification } from '../_services/notification';
 
 const MyTextInput = ({ label, ...props }) => {
 	const [field, meta] = useField(props);
@@ -69,10 +70,17 @@ const CreateCustomerForm = ({ fetchCustomers }) => {
 					saveCustomer(customer)
 						.then(res => {
 							console.log(res)
-							alert("customer added")
+							successNotification(
+								"Customer saved",
+								`${customer.name} was successfully saved`
+							)
 							fetchCustomers();
 						}).catch(err => {
 							console.log(err)
+							errorNotification(
+								err.code,
+								err.response.data.message
+							)
 						}).finally(() => {
 							setSubmitting(false)
 						})
