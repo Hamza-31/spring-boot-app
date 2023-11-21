@@ -34,7 +34,7 @@ function DeleteCustomerDialog({ id, name, fetchCustomers }) {
 				variant="outline"
 				onClick={onOpen}
 			>
-				Delete Customer
+				Delete
 			</Button>
 
 			<AlertDialog

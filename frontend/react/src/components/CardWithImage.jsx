@@ -10,12 +10,24 @@ import {
 	Text,
 	Stack,
 	useColorModeValue,
-	Tag
+	Tag,
+	useDisclosure,
+	Button,
+	Drawer,
+	DrawerOverlay,
+	DrawerContent,
+	DrawerCloseButton,
+	DrawerHeader,
+	DrawerBody,
+	DrawerFooter,
+	Spacer
 } from '@chakra-ui/react'
 import DeleteCustomerDialog from './DeleteCustomerDialog';
+import EditCustomerForm from './EditCustomerForm';
 
 export default function CardWithImage({ id, name, email, age, gender, imageNumber, fetchCustomers }) {
 	const randomUserGender = gender === 'MALE' ? 'men' : 'women';
+	const { isOpen, onOpen, onClose } = useDisclosure()
 	return (
 		<Center py={6}>
 			<Box
@@ -56,9 +68,38 @@ export default function CardWithImage({ id, name, email, age, gender, imageNumbe
 						<Text color={'gray.500'}>Age: {age} | {gender}</Text>
 					</Stack>
 				</Box>
-				<Stack>
-					<DeleteCustomerDialog fetchCustomers={fetchCustomers} id={id} name={name}></DeleteCustomerDialog>
-				</Stack>
+				<Flex gap={2} p={2} alignItems='center'>
+
+					<Button
+						colorScheme={"teal"}
+						onClick={onOpen}
+						variant="outline"
+					>Edit</Button>
+					<Drawer isOpen={isOpen} onClose={onClose} size={"xl"}>
+						<DrawerOverlay />
+						<DrawerContent>
+							<DrawerCloseButton />
+							<DrawerHeader>Edit Customer &quot;{name}&quot;</DrawerHeader>
+
+							<DrawerBody>
+								<EditCustomerForm onClose={onClose} fetchCustomers={fetchCustomers} id={id} name={name} email={email} age={age} gender={gender} />
+							</DrawerBody>
+
+							<DrawerFooter>
+								<Button
+									colorScheme={"teal"}
+									onClick={onClose}
+									leftIcon={() => "x"}
+								>
+									Close
+								</Button>
+							</DrawerFooter>
+						</DrawerContent>
+					</Drawer>
+					<Spacer />
+					<DeleteCustomerDialog fetchCustomers={fetchCustomers} id={id} name={name} />
+
+				</Flex>
 			</Box>
 		</Center>
 	)
