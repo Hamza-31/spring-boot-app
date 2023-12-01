@@ -15,7 +15,7 @@
 		},
 		{
 			"name": "hamza31-api",
-			"image": "hamza31/hamza31-api:18.11.2023.17.09.58",
+			"image": "hamza31/hamza31-api:26.11.2023.16.45.54",
 			"essential": true,
 			"memory": 512,
 			"portMappings": [
