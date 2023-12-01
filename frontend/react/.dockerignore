@@ -1,3 +1,5 @@
 node_module
 Dockerfile
 .env
+.dockerignore
+.DS_Store
